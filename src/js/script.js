@@ -147,36 +147,43 @@
       console.log('formData: ', formData);
 
       /* set price const with default price - thisProduct.data.price */
-      const price = thisProduct.data.price;
+      let price = thisProduct.data.price;
       console.log('price: ', price);
 
       /* START LOOP: for all params */
-      const param = thisProduct.data.params[paramID];
-      console.log('param: ', param);
+      const params = thisProduct.data.params;
+      console.log('params: ', params);
+
+      for (let paramID in params) {
+        const param = params[paramID];
+        console.log('param: ', param);
 
         /* START LOOP: for all options of each param */
+        for (let optionID in param.options) {
+          const option = param.options[optionID];
+          console.log('option: ', option);
+          console.log('optionID: ', optionID);
+          console.log('options price: ', option.price);
 
           /* set checked option const - check if the option is checked */
-
-            /* check if formData contains param key */
-
-            /* check if array has option's key */
+          const checkedOption = formData.hasOwnProperty(paramID) && formData[paramID].indexOf(optionID) > -1;
+          console.log('checkedOption: ', checkedOption);
 
           /* START if checked option isn't default, increase price by option's price */
+          if (checkedOption && !option.default) {
+            price += option.price;
+            console.log('price: ', price);
 
-          /* if default option isn't checked, decrease proce by option's price */
-
-          /* END if */
-
-        /* END LOOP: for all options of each param */
-
-      /* END LOOP: for all params */
-
-
-
-
+            /* if default option isn't checked, decrease proce by option's price */
+          } else if (option.default && !checkedOption) {
+            price -= option.price;
+            console.log('price: ', price);
+          }
+        }
+      }
 
       /* add price to thisProduct.priceElem */
+      thisProduct.priceElem.innerHTML = price;
     }
   }
 
