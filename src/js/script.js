@@ -376,6 +376,59 @@
       thisCart.dom.productList.appendChild(generatedDOM);
 
       console.log('adding product ', menuProduct);
+
+      thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
+      console.log('thisCart.products: ', thisCart.products);
+    }
+  }
+
+  class CartProduct {
+    constructor(menuProduct, element) {
+      const thisCartProduct = this;
+
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.name;
+
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      console.log('priceSingle: ', thisCartProduct.priceSingle);
+
+      thisCartProduct.params = JSON.parse(JSON.stringify(menuProduct.params));
+
+      thisCartProduct.getElements(element);
+      thisCartProduct.initAmountWidget();
+
+      thisCartProduct.amount = thisCartProduct.amountWidgetElement.value;
+      console.log('amount: ', thisCartProduct.amount);
+      thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amount;
+      console.log('price: ', thisCartProduct.price);
+
+      console.log('thisCartProduct: ', thisCartProduct);
+      console.log('menuProduct: ', menuProduct);
+    }
+
+    getElements(element) {
+      const thisCartProduct = this;
+
+      thisCartProduct.dom = {};
+
+      thisCartProduct.dom.wrapper = element;
+
+      thisCartProduct.amountWidget = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.amountWidget);
+      thisCartProduct.priceElem = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.price);
+      thisCartProduct.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
+      thisCartProduct.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
+    }
+
+    initAmountWidget() {
+      const thisCartProduct = this;
+
+      thisCartProduct.amountWidgetElement = new AmountWidget(thisCartProduct.amountWidget);
+      console.log('amountWidget: ', thisCartProduct.amountWidgetElement);
+
+      thisCartProduct.amountWidgetElement.element.addEventListener('updated', function() {
+        thisCartProduct.priceElem.innerHTML = thisCartProduct.price;
+      });
+
     }
   }
 
