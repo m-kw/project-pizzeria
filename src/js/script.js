@@ -576,6 +576,8 @@
         params: JSON.parse(JSON.stringify(thisCartProduct.params)),
       };
 
+      return productData;
+
       console.log('productData', productData);
     }
   }
