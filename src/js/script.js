@@ -171,6 +171,7 @@
         event.preventDefault();
         thisProduct.processOrder();
         thisProduct.addToCart();
+        thisProduct.setDefault();
       });
     }
 
@@ -274,6 +275,20 @@
 
       app.cart.add(thisProduct);
     }
+
+    setDefault() {
+      const thisProduct = this;
+
+      /* set default quantity */
+
+      thisProduct.amount = settings.amountWidget.defaultValue;
+      thisProduct.amountElem = thisProduct.element.querySelector(select.widgets.amount.input);
+      thisProduct.amountElem.value = thisProduct.amount;
+
+      /* IN PROGRES set default options */
+
+    }
+
   }
 
   class AmountWidget {
@@ -412,13 +427,13 @@
       };
 
       for (let product of thisCart.products) {
-        console.log('product: ', product);
+        //console.log('product: ', product);
 
         const data = product.getData();
-        console.log('data:', data);
+        //console.log('data:', data);
 
         payload.products.push(data);
-        console.log('data pushed');
+        //console.log('data pushed');
       }
 
       const options = {
@@ -463,14 +478,14 @@
 
       for (let product of thisCart.products) {
         thisCart.subtotalPrice += product.price;
-        console.log('subtotalPrice: ', thisCart.subtotalPrice);
+        //console.log('subtotalPrice: ', thisCart.subtotalPrice);
 
         thisCart.totalNumber += product.amount;
-        console.log('totalNumber: ', thisCart.totalNumber);
+        //console.log('totalNumber: ', thisCart.totalNumber);
       }
 
       thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
-      console.log('totalPrice: ', thisCart.totalPrice);
+      //console.log('totalPrice: ', thisCart.totalPrice);
 
       for (let key of thisCart.renderTotalsKeys) {
         for (let elem of thisCart.dom[key]) {
@@ -548,7 +563,7 @@
       });
 
       thisCartProduct.dom.wrapper.dispatchEvent(event);
-      console.log('product removed');
+      //console.log('product removed');
     }
 
     initActions() {
@@ -556,7 +571,7 @@
 
       thisCartProduct.dom.edit.addEventListener('click', function() {
         event.preventDefault();
-        console.log('edit clicked');
+        //console.log('edit clicked');
       });
 
       thisCartProduct.dom.remove.addEventListener('click', function() {
@@ -578,7 +593,6 @@
 
       return productData;
 
-      console.log('productData', productData);
     }
   }
 
