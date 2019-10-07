@@ -288,7 +288,6 @@
       /* IN PROGRES set default options */
 
     }
-
   }
 
   class AmountWidget {
@@ -407,7 +406,13 @@
 
       thisCart.dom.form.addEventListener('submit', function() {
         event.preventDefault();
-        thisCart.sendOrder();
+        const emptyOrNot = thisCart.dom.productList.hasChildNodes();
+
+        if (emptyOrNot === true) {
+          thisCart.sendOrder();
+        } else {
+          alert('Your cart is empty');
+        }
       });
     }
 
@@ -417,8 +422,8 @@
       const url = settings.db.url + '/' + settings.db.order;
 
       const payload = {
-        phone: thisCart.dom.phone,
-        address: thisCart.dom.address,
+        phone: thisCart.dom.phone.value,
+        address: thisCart.dom.address.value,
         totalNumber: thisCart.totalNumber,
         subtotalPrice: thisCart.subtotalPrice,
         deliveryFee: thisCart.deliveryFee,
