@@ -278,15 +278,29 @@
 
     setDefault() {
       const thisProduct = this;
-
-      /* set default quantity */
+      const formInputsArray = Array.prototype.slice.call(this.formInputs);
+      this.selectElements(formInputsArray, 'checked');
 
       thisProduct.amount = settings.amountWidget.defaultValue;
       thisProduct.amountElem = thisProduct.element.querySelector(select.widgets.amount.input);
       thisProduct.amountElem.value = thisProduct.amount;
 
-      /* IN PROGRES set default options */
+    }
 
+    selectElements(elementsArray, toggleAttribute) {
+      const params = this.data.params;
+      for (let paramID in params) {
+        const param = params[paramID];
+
+        for (let optionID in param.options) {
+          // console.log('optionID', optionID);
+          const option = param.options[optionID];
+          const inputToCheck = elementsArray.find(el => el.id === optionID);
+          if (inputToCheck) {
+            inputToCheck[toggleAttribute] = option.default;
+          }
+        }
+      }
     }
   }
 
@@ -514,10 +528,10 @@
     empty() {
       const thisCart = this;
 
-      console.log('products', thisCart.products);
+      //console.log('products', thisCart.products);
 
       thisCart.products.splice(0);
-      console.log('products deleted', thisCart.products);
+      //console.log('products deleted', thisCart.products);
 
       thisCart.dom.productList.remove();
 
