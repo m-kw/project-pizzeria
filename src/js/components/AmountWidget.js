@@ -43,6 +43,23 @@ class AmountWidget {
     thisWidget.input.addEventListener('change', function() {
       thisWidget.setValue(thisWidget.input.value);
     });
+
+    thisWidget.linkDecrease.addEventListener('click', function(event) {
+      event.preventDefault();
+      thisWidget.setValue(thisWidget.value - 1);
+    });
+
+    thisWidget.linkIncrease.addEventListener('click', function(event) {
+      event.preventDefault();
+      thisWidget.setValue(thisWidget.value + 1);
+    });
+  }
+
+  announce() {
+    const thisWidget = this;
+
+    const event = new Event('updated');
+    thisWidget.element.dispatchEvent(event);
   }
 }
 

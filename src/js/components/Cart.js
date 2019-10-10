@@ -166,7 +166,7 @@ class Cart {
     thisCart.products.splice(0);
     //console.log('products deleted', thisCart.products);
 
-    thisCart.dom.productList.remove();
+    thisCart.dom.productList.innerHTML = '';
 
     thisCart.dom.phone.value = '';
     thisCart.dom.address.value = '';
