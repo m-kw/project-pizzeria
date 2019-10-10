@@ -131,14 +131,14 @@ class Cart {
 
     for (let product of thisCart.products) {
       thisCart.subtotalPrice += product.price;
-      console.log('subtotalPrice: ', thisCart.subtotalPrice);
+      //console.log('subtotalPrice: ', thisCart.subtotalPrice);
 
       thisCart.totalNumber += product.amount;
-      console.log('totalNumber: ', thisCart.totalNumber);
+      //console.log('totalNumber: ', thisCart.totalNumber);
     }
 
     thisCart.totalPrice = thisCart.subtotalPrice + thisCart.deliveryFee;
-    console.log('totalPrice: ', thisCart.totalPrice);
+    //console.log('totalPrice: ', thisCart.totalPrice);
 
     for (let key of thisCart.renderTotalsKeys) {
       for (let elem of thisCart.dom[key]) {
