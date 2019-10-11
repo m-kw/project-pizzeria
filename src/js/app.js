@@ -40,6 +40,7 @@ const app = {
       });
     }
   },
+
   activatePage: function(pageID) {
     const thisApp = this;
 
@@ -54,6 +55,7 @@ const app = {
       );
     }
   },
+
   initMenu: function() {
     const thisApp = this;
     // console.log('thisApp.data: ', thisApp.data);
@@ -62,6 +64,7 @@ const app = {
       new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
     }
   },
+
   initData: function() {
     const thisApp = this;
     thisApp.data = {};
@@ -86,6 +89,7 @@ const app = {
     console.log('thisApp.data', JSON.stringify(thisApp.data));
 
   },
+
   initCart : function() {
     const thisApp = this;
 
@@ -98,12 +102,14 @@ const app = {
       app.cart.add(event.detail.product);
     });
   },
+
   initBooking: function() {
     const thisApp = this;
     const bookingElem = document.querySelector(select.containerOf.booking);
 
     thisApp.booking = new Booking(bookingElem);
   },
+  
   init: function() {
     const thisApp = this;
     console.log('*** App starting ***');
