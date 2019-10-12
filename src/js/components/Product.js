@@ -207,6 +207,11 @@ class Product {
   setDefault() {
     const thisProduct = this;
     const formInputsArray = Array.prototype.slice.call(this.formInputs);
+
+    thisProduct.formOptions = thisProduct.element.querySelectorAll('option');
+    const formOptionsArray = Array.prototype.slice.call(thisProduct.formOptions);
+
+    this.selectElements(formOptionsArray, 'selected');
     this.selectElements(formInputsArray, 'checked');
 
     thisProduct.amount = settings.amountWidget.defaultValue;
@@ -223,13 +228,13 @@ class Product {
       for (let optionID in param.options) {
         // console.log('optionID', optionID);
         const option = param.options[optionID];
-        const inputToCheck = elementsArray.find(el => el.id === optionID);
-        const images = this.imageWrapper.querySelectorAll('.' + paramID + '-' + optionID);
+        const inputToCheck = elementsArray.find(el => el.value === optionID);
+        //const images = this.imageWrapper.querySelectorAll('.' + paramID + '-' + optionID);
         if (inputToCheck) {
           inputToCheck[toggleAttribute] = option.default;
-          for (let image of images) {
-            image.classList.toggle(classNames.menuProduct.imageVisible);
-          }
+          // for (let image of images) {
+          //   image.classList.toggle(classNames.menuProduct.imageVisible);
+          // }
         }
       }
     }
