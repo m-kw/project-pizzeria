@@ -91,6 +91,22 @@ class Booking {
     this.updateDOM();
   }
 
+  bookTable() {
+    console.log('tables', this.dom.tables);
+
+    for (let table of this.dom.tables) {
+      if (table.classList.contains(classNames.booking.tableBooked)) {
+        //console.log('stolik zajęty', table);
+      } else {
+        table.addEventListener('click', function() {
+          table.classList.toggle(classNames.booking.tableBooked);
+        });
+      }
+    }
+
+
+  }
+
   makeBooked(date, hour, duration, table) {
 
     if (typeof this.booked[date] === 'undefined') {
@@ -132,6 +148,9 @@ class Booking {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
+
+    this.bookTable();
+
   }
 
   render(bookingElem) {
