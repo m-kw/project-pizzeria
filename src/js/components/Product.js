@@ -229,12 +229,12 @@ class Product {
         // console.log('optionID', optionID);
         const option = param.options[optionID];
         const inputToCheck = elementsArray.find(el => el.value === optionID);
-        //const images = this.imageWrapper.querySelectorAll('.' + paramID + '-' + optionID);
+        const images = this.imageWrapper.querySelectorAll('.' + paramID + '-' + optionID);
         if (inputToCheck) {
           inputToCheck[toggleAttribute] = option.default;
-          // for (let image of images) {
-          //   image.classList.toggle(classNames.menuProduct.imageVisible);
-          // }
+          for (let image of images) {
+            image.classList.toggle(classNames.menuProduct.imageVisible);
+          }
         }
       }
     }

@@ -15,7 +15,7 @@ export const select = {
   all: {
     menuProducts: '#product-list > .product',
     menuProductsActive: '#product-list > .product.active',
-    formInputs: 'input, option',
+    formInputs: 'input, option', //changed select selector to option selector
   },
   menuProduct: {
     clickable: '.product__header',
