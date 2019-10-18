@@ -9,6 +9,25 @@ class Booking {
     this.render(bookingElem);
     this.initWidgets();
     this.getData();
+    this.initActions();
+  }
+
+  render(bookingElem) {
+    const generatedHTML = templates.bookingWidget();
+
+    this.dom = {};
+
+    this.dom.wrapper = bookingElem;
+    this.dom.wrapper.innerHTML = generatedHTML;
+    this.dom.peopleAmount = this.dom.wrapper.querySelector(select.booking.peopleAmount);
+    this.dom.hoursAmount = this.dom.wrapper.querySelector(select.booking.hoursAmount);
+    this.dom.datePicker = this.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
+    this.dom.hourPicker = this.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
+    this.dom.tables = this.dom.wrapper.querySelectorAll(select.booking.tables);
+    this.dom.duration = this.dom.wrapper.querySelector('[name="hours"]');
+    this.dom.people = this.dom.wrapper.querySelector('[name="people"]');
+    this.dom.starters = this.dom.wrapper.querySelectorAll(select.booking.starters);
+    this.dom.formSubmit = this.dom.wrapper.querySelector(select.booking.formSubmit);
   }
 
   getData() {
@@ -92,6 +111,14 @@ class Booking {
   }
 
   bookTable() {
+    this.currentDate = this.datePicker.value;
+    const chosenHour = this.hourPicker.value;
+    const newHour = this.hourPicker.value;
+
+    console.log('this.date', this.date);
+    console.log('chosenHour', chosenHour);
+    console.log('newHour', newHour);
+
     console.log('tables', this.dom.tables);
 
     for (let table of this.dom.tables) {
@@ -101,9 +128,39 @@ class Booking {
         table.addEventListener('click', function() {
           table.classList.toggle(classNames.booking.tableBooked);
         });
+
       }
     }
 
+    /*TO DO:  watch changes in hourPicker and datePicker */
+
+  }
+
+  sendBooking() {
+    console.log('booking sent');
+
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    //let tableId = this.dom.tables.getAttribute(settings.booking.tableIdAttribute);
+
+    const booking = {
+      date: this.datePicker.value,
+      hour: this.hourPicker.value,
+      //table: this.dom.tables[tableId],
+      duration: this.dom.duration.value,
+      ppl: this.dom.people.value,
+      starters: [],
+    };
+
+    console.log('starters', this.dom.starters);
+
+    for (let starter of this.dom.starters) {
+      if (starter.checked === true) {
+        booking.starters.push(starter.value);
+      }
+    }
+
+    console.log('booking', booking);
 
   }
 
@@ -153,18 +210,17 @@ class Booking {
 
   }
 
-  render(bookingElem) {
-    const generatedHTML = templates.bookingWidget();
+  initActions() {
+    const thisBooking = this;
 
-    this.dom = {};
+    console.log('submit', this.dom.formSubmit);
+    console.log('this.dom', this.dom);
 
-    this.dom.wrapper = bookingElem;
-    this.dom.wrapper.innerHTML = generatedHTML;
-    this.dom.peopleAmount = this.dom.wrapper.querySelector(select.booking.peopleAmount);
-    this.dom.hoursAmount = this.dom.wrapper.querySelector(select.booking.hoursAmount);
-    this.dom.datePicker = this.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
-    this.dom.hourPicker = this.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    this.dom.tables = this.dom.wrapper.querySelectorAll(select.booking.tables);
+    thisBooking.dom.formSubmit.addEventListener('click', function() {
+      event.preventDefault();
+      console.log('submit clicked');
+      thisBooking.sendBooking();
+    });
   }
 
   initWidgets() {
