@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Pizzeria</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
@@ -61,9 +62,43 @@
   </header>
 
   <div id="pages">
+    <section id="main" class="main container">
+      <div class="row intro">
+        <div class="col-6 photo">
+          <div class="photo-details">
+            <h3 class="photo-title">ORDER</h3>
+            <p>Delicious food delivered to your door</p>
+          </div>
+          <img src="images/pizza-1.jpg" alt="pizza">
+        </div>
+        <div class="col-6 photo">
+          <div class="photo-details">
+            <h3 class="photo-title">BOOKING</h3>
+            <p>Feels like home.</p>
+          </div>
+          <img src="images/pizza-2.jpg" alt="wooden table and food on it">
+        </div>
+        <div class="col-12 open">
+            <h3 class="photo-title">OPENING HOURS</h3>
+            <p>TUE SUN, 12PM - 12AM</p>
+        </div>
+      </div>
+      <div class="row carousel">
+      </div>
+      <div class="row gallery">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+    </section>
+
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
+
     <section id="booking">
       <div class="booking-wrapper container"></div>
     </section>
