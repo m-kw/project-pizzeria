@@ -110,49 +110,17 @@ class Booking {
     this.updateDOM();
   }
 
-  bookTable() {
-    this.currentDate = this.datePicker.value;
-    const chosenHour = this.hourPicker.value;
-    const newHour = this.hourPicker.value;
-
-    console.log('this.date', this.date);
-    console.log('chosenHour', chosenHour);
-    console.log('newHour', newHour);
-
-    console.log('tables', this.dom.tables);
-
-    for (let table of this.dom.tables) {
-      if (table.classList.contains(classNames.booking.tableBooked)) {
-        //console.log('stolik zajęty', table);
-      } else {
-        table.addEventListener('click', function() {
-          table.classList.toggle(classNames.booking.tableBooked);
-        });
-
-      }
-    }
-
-    /*TO DO:  watch changes in hourPicker and datePicker */
-
-  }
-
   sendBooking() {
-    console.log('booking sent');
-
     const url = settings.db.url + '/' + settings.db.booking;
-
-    //let tableId = this.dom.tables.getAttribute(settings.booking.tableIdAttribute);
 
     const booking = {
       date: this.datePicker.value,
       hour: this.hourPicker.value,
-      //table: this.dom.tables[tableId],
+      table: this.tableId,
       duration: this.dom.duration.value,
       ppl: this.dom.people.value,
       starters: [],
     };
-
-    console.log('starters', this.dom.starters);
 
     for (let starter of this.dom.starters) {
       if (starter.checked === true) {
@@ -162,6 +130,21 @@ class Booking {
 
     console.log('booking', booking);
 
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(booking),
+    };
+
+    fetch(url, options)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(parsedResponse) {
+        console.log('parsedResponse booking', parsedResponse);
+      });
   }
 
   makeBooked(date, hour, duration, table) {
@@ -206,17 +189,20 @@ class Booking {
       }
     }
 
-    this.bookTable();
-
   }
 
   initActions() {
     const thisBooking = this;
 
-    console.log('submit', this.dom.formSubmit);
-    console.log('this.dom', this.dom);
+    for (let table of this.dom.tables) {
+      table.addEventListener('click', function() {
+        table.classList.toggle(classNames.booking.tableBooked);
+        this.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        console.log('chosen table', this.tableId);
+      });
+    }
 
-    thisBooking.dom.formSubmit.addEventListener('click', function() {
+    this.dom.formSubmit.addEventListener('click', function() {
       event.preventDefault();
       console.log('submit clicked');
       thisBooking.sendBooking();
