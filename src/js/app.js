@@ -9,6 +9,9 @@ const app = {
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    thisApp.mainLinks = document.querySelectorAll('.nav a');
+    thisApp.mainNav = document.querySelector('.main-nav');
+    thisApp.logoLink = document.querySelector('.logo a');
 
     const idFromHash = window.location.hash.replace('#/', '');
 
@@ -39,6 +42,39 @@ const app = {
 
       });
     }
+
+    for (let link of thisApp.mainLinks) {
+      link.addEventListener('click', function(event) {
+        const clickedElement = this;
+        event.preventDefault();
+
+        /* get page id from href attribute */
+        const id = clickedElement.getAttribute('href').replace('#', '');
+
+        /* run thisApp.activatePage with that id */
+        thisApp.activatePage(id);
+
+        thisApp.mainNav.classList.add('active');
+
+        /* change URL hash */
+        window.location.hash = '#/' + id;
+      });
+    }
+
+    thisApp.logoLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      const clickedElement = this;
+
+      const id = clickedElement.getAttribute('href').replace('#', '');
+
+      thisApp.activatePage(id);
+
+      thisApp.mainNav.classList.remove('active');
+
+      window.location.hash = '#/' + id;
+    });
+
+
   },
 
   activatePage: function(pageID) {
@@ -109,7 +145,7 @@ const app = {
 
     thisApp.booking = new Booking(bookingElem);
   },
-  
+
   init: function() {
     const thisApp = this;
     console.log('*** App starting ***');

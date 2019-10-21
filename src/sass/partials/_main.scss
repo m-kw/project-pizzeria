@@ -35,6 +35,12 @@ $main-color: #FF6B6B;
     z-index: 1;
   }
 
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   img {
     position: relative;
     width: 100%;
