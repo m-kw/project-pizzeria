@@ -130,7 +130,7 @@ class Booking {
     }
 
     for (let table of this.dom.tables) {
-      if (table.classList.contains(classNames.booking.tableBooked)) {
+      if (table.classList.contains('selected')) {
         thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
         if (!isNaN(thisBooking.tableId)) {
           thisBooking.tableId = parseInt(thisBooking.tableId);
@@ -158,7 +158,7 @@ class Booking {
       });
 
     this.makeBooked(booking.date, booking.hour, booking.duration, booking.table);
-    console.log('this.booked after booking', this.booked);
+    //console.log('this.booked after booking', this.booked);
   }
 
   makeBooked(date, hour, duration, table) {
@@ -176,7 +176,7 @@ class Booking {
         this.booked[date][hourBlock] = [];
       }
 
-      this.booked[date][hourBlock].push(table);
+      this.booked[date][hourBlock] = this.booked[date][hourBlock].concat(table);
     }
 
     //console.log('this.booked', this.booked);
@@ -188,7 +188,7 @@ class Booking {
 
     let allAvailable = false;
 
-    console.log('this.booked', this.booked);
+    //console.log('this.booked', this.booked);
 
     if (typeof this.booked[this.date] === 'undefined' || typeof this.booked[this.date][this.hour] === 'undefined') {
       allAvailable = true;
@@ -199,6 +199,11 @@ class Booking {
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
+
+      if (table.classList.contains('selected')) {
+        return;
+      }
+
 
       if (!allAvailable && this.booked[this.date][this.hour].includes(tableId)) {
         table.classList.add(classNames.booking.tableBooked);
@@ -214,9 +219,13 @@ class Booking {
 
     for (let table of this.dom.tables) {
       table.addEventListener('click', function() {
-        table.classList.toggle(classNames.booking.tableBooked);
-        thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
-        console.log('chosen table', thisBooking.tableId);
+        if (table.classList.contains(classNames.booking.tableBooked)) {
+          return;
+        } else {
+          table.classList.toggle('selected');
+          thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+          console.log('chosen table', thisBooking.tableId);
+        }
       });
     }
 
