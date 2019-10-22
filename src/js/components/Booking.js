@@ -76,7 +76,7 @@ class Booking {
         ]);
       })
       .then(function([bookings, eventsCurrent, eventsRepeat]) {
-        console.log(bookings);
+        console.log('bookings from API', bookings);
         // console.log(eventsCurrent);
         // console.log(eventsRepeat);
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
@@ -111,20 +111,31 @@ class Booking {
   }
 
   sendBooking() {
+    const thisBooking = this;
     const url = settings.db.url + '/' + settings.db.booking;
 
     const booking = {
       date: this.datePicker.value,
       hour: this.hourPicker.value,
-      table: this.tableId,
-      duration: this.dom.duration.value,
-      ppl: this.dom.people.value,
+      table: [],
+      duration: parseInt(this.dom.duration.value),
+      ppl: parseInt(this.dom.people.value),
       starters: [],
     };
 
     for (let starter of this.dom.starters) {
       if (starter.checked === true) {
         booking.starters.push(starter.value);
+      }
+    }
+
+    for (let table of this.dom.tables) {
+      if (table.classList.contains(classNames.booking.tableBooked)) {
+        thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        if (!isNaN(thisBooking.tableId)) {
+          thisBooking.tableId = parseInt(thisBooking.tableId);
+        }
+        booking.table.push(thisBooking.tableId);
       }
     }
 
@@ -145,6 +156,9 @@ class Booking {
       .then(function(parsedResponse) {
         console.log('parsedResponse booking', parsedResponse);
       });
+
+    this.makeBooked(booking.date, booking.hour, booking.duration, booking.table);
+    console.log('this.booked after booking', this.booked);
   }
 
   makeBooked(date, hour, duration, table) {
@@ -164,6 +178,8 @@ class Booking {
 
       this.booked[date][hourBlock].push(table);
     }
+
+    //console.log('this.booked', this.booked);
   }
 
   updateDOM() {
@@ -197,8 +213,8 @@ class Booking {
     for (let table of this.dom.tables) {
       table.addEventListener('click', function() {
         table.classList.toggle(classNames.booking.tableBooked);
-        this.tableId = table.getAttribute(settings.booking.tableIdAttribute);
-        console.log('chosen table', this.tableId);
+        thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
+        console.log('chosen table', thisBooking.tableId);
       });
     }
 
