@@ -188,6 +188,8 @@ class Booking {
 
     let allAvailable = false;
 
+    console.log('this.booked', this.booked);
+
     if (typeof this.booked[this.date] === 'undefined' || typeof this.booked[this.date][this.hour] === 'undefined') {
       allAvailable = true;
     }
