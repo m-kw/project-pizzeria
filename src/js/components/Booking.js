@@ -139,7 +139,7 @@ class Booking {
       }
     }
 
-    console.log('booking', booking);
+    //console.log('booking', booking);
 
     const options = {
       method: 'POST',
@@ -176,7 +176,7 @@ class Booking {
         this.booked[date][hourBlock] = [];
       }
 
-      this.booked[date][hourBlock] = this.booked[date][hourBlock].concat(table);
+      this.booked[date][hourBlock] = this.booked[date][hourBlock].concat(table).filter((number, index, array) => array.indexOf(number) === index);
     }
 
     //console.log('this.booked', this.booked);
@@ -224,16 +224,33 @@ class Booking {
         } else {
           table.classList.toggle('selected');
           thisBooking.tableId = table.getAttribute(settings.booking.tableIdAttribute);
-          console.log('chosen table', thisBooking.tableId);
+          //console.log('chosen table', thisBooking.tableId);
         }
       });
     }
 
     this.dom.formSubmit.addEventListener('click', function() {
       event.preventDefault();
-      console.log('submit clicked');
+      //console.log('submit clicked');
       thisBooking.sendBooking();
     });
+
+    this.hourInput = this.hourPicker.dom.input;
+    this.dateInput = this.datePicker.dom.input;
+
+    this.hourInput.addEventListener('change', function() {
+      for (let table of thisBooking.dom.tables) {
+        table.classList.remove('selected');
+      }
+    });
+
+    this.dateInput.addEventListener('change', function() {
+      for (let table of thisBooking.dom.tables) {
+        table.classList.remove('selected');
+      }
+    });
+
+
   }
 
   initWidgets() {

@@ -31,6 +31,7 @@ class DatePicker extends BaseWidget {
         this.value = dateStr;
       }
     });
+
   }
 
   parseValue(value) {
